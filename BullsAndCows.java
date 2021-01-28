@@ -20,12 +20,16 @@ class BullsAndCows{
     private enum gameStates{startGame, inputAndCompare, endGame, giveSolution}
 
     public static void main(String[] args) {
+        //why do some vars have to be in the mwthod instead of outside ofit 
+
         ArrayList<Integer> solution = new ArrayList<Integer>();
-        ArrayList<Integer> guessArray = new ArrayList<Integer>(4);
+        ArrayList<Integer> guessArray = new ArrayList<Integer>();
         gameStates gameState = gameStates.startGame;
         boolean gameActive = true;
         boolean duplicate = false;
+        int numGuessDigits = 4;
         int guessCount = 1;
+        String output = "";
 
         //define variables used in while loop
         int guessNumber;
@@ -38,15 +42,29 @@ class BullsAndCows{
                 case startGame: {
                 System.out.println(ANSI_BLUE + "<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
                 System.out.println("If you want the solution before you solve it, enter 0000.\n");
+                System.out.print("Enter number of digits you'd like to guess: ");
+                numGuessDigits = keys.nextInt();    //TODO note: if guess starts with 0, it will interpret it as xxx instead of 0xxx bc it is an int, not sure how this will affect things.
+
+                if(numGuessDigits > 10){
+                    numGuessDigits = 10;
+                    System.out.println("Number of digits set to 10 (max)");
+                } else if(numGuessDigits < 1){
+                    numGuessDigits = 1;
+                    System.out.println("Number of digits set to 1 (min)");
+                }
                 //add elements in the list
                 for(int i = 0; i < 10; i++){
                     solution.add(i);
                 }     
 
                 Collections.shuffle(solution); //shuffles array of numbers
+                for(int i = solution.size()-1; i >= numGuessDigits; i--){
+                    solution.remove(i);
+                }
+                solution.trimToSize();
                 guessCount = 1;
 
-                // for(int i = 0; i < 4; i++){  //TODO will print solution; must be commented out
+                // for(int i = 0; i < solution.size(); i++){  //TODO will print solution; must be commented out
                 //     System.out.println(solution.get(i));
                 // }  
 
@@ -71,13 +89,13 @@ class BullsAndCows{
                     }
 
                     //typecasts guess into a String an reads the length
-                    if(String.valueOf(guess).length() != 4){
-                        System.out.println(ANSI_RED + "Guess must be 4 digits. Enter another guess\n" + ANSI_RESET);
+                    if(String.valueOf(guess).length() != numGuessDigits){
+                        System.out.println(ANSI_RED + "Guess must be " + numGuessDigits + " digits. Enter another guess\n" + ANSI_RESET);
                         break;
                     }
 
                     //converts the inputted 4 digit int into an arraylist so that each digit can be compared
-                    for(int i = 0; i < 4; i++){
+                    for(int i = 0; i < numGuessDigits; i++){
                         guessNumber = guess % 10;
                         guess = guess / 10;
                         if(guessArray.contains(guessNumber)){
@@ -95,18 +113,23 @@ class BullsAndCows{
                     
                     //compares each digit in the guess array to the solution array to determine # of bulls & cows
 
-                    for(int i = 0; i < 4; i++){
+                    for(int i = 0; i < numGuessDigits; i++){
                         if(guessArray.get(i) == solution.get(i)){
                             bulls++;
-                        } else if(guessArray.get(i) == solution.get(0) || guessArray.get(i) == solution.get(1) || guessArray.get(i) == solution.get(2) || guessArray.get(i) == solution.get(3)){
+                        }  else if(solution.contains(guessArray.get(i))){
                             cows++;
                         }
                     }  
+
+                    guessArray.trimToSize();
         
                     System.out.println(ANSI_GREEN + "Bulls: " + bulls + "\tCows: " + cows + "\n" + ANSI_RESET);
-                    if (bulls == 4){
+                    if (bulls == numGuessDigits){
                         System.out.println(ANSI_CYAN + "You won in " + guessCount + " guesses!");
-                        System.out.println("Number to guess: " + solution.get(0) + solution.get(1) + solution.get(2) + solution.get(3) + ANSI_RESET);
+                        for(int i = 0; i < numGuessDigits; i++){
+                            output += solution.get(i);
+                        }
+                        System.out.println("Number to guess: " + output + ANSI_RESET);
                         gameState = gameStates.endGame;
                     }
                     guessCount++;
