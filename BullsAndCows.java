@@ -39,6 +39,7 @@ class BullsAndCows{
                 System.out.println(ANSI_BLUE + "<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
                 System.out.println("If you want the solution before you solve it, enter 0000.\n");
                 //add elements in the list
+                solution.clear();
                 for(int i = 0; i < 10; i++){    //TODO this might need to be cleared after each game to prevent duplicate digits
                     solution.add(i);
                 }     
