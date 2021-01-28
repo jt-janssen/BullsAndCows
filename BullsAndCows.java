@@ -52,6 +52,8 @@ class BullsAndCows{
                     numGuessDigits = 1;
                     System.out.println("Number of digits set to 1 (min)");
                 }
+                    
+                solution.clear();
                 //add elements in the list
                 for(int i = 0; i < 10; i++){
                     solution.add(i);
