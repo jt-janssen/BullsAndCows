@@ -24,6 +24,7 @@ class BullsAndCows{
         ArrayList<Integer> guessArray = new ArrayList<Integer>(4);
         gameStates gameState = gameStates.startGame;
         boolean gameActive = true;
+        boolean duplicate = false;
         int guessCount = 1;
 
         //define variables used in while loop
@@ -31,7 +32,8 @@ class BullsAndCows{
         int bulls, cows;
         Scanner keys = new Scanner(System.in);
 
-        while(gameActive){   //runs & accepts guesses ustil right guess is guessed
+        while(gameActive){   //runs & accepts guesses until game is over
+            
             switch(gameState){
                 case startGame: {
                 System.out.println(ANSI_BLUE + "<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
@@ -68,7 +70,7 @@ class BullsAndCows{
                         break;
                     }
 
-                    //logic so that you are not allowed to enter anything else other than 4 digits
+                    //typecasts guess into a String an reads the length
                     if(String.valueOf(guess).length() != 4){
                         System.out.println(ANSI_RED + "Guess must be 4 digits. Enter another guess\n" + ANSI_RESET);
                         break;
@@ -79,18 +81,20 @@ class BullsAndCows{
                         guessNumber = guess % 10;
                         guess = guess / 10;
                         if(guessArray.contains(guessNumber)){
-                            System.out.println(ANSI_RED + "Two numbers cannot be the same in a guess. Enter another guess." + ANSI_RESET);
-                            guessCount--;
-                            break;
+                            System.out.println(ANSI_RED + "Two numbers cannot be the same in a guess. Enter another guess.\n" + ANSI_RESET);
+                            duplicate = true;   //will make the if block run below to break out of the switch
                         }
                         guessArray.add(guessNumber);
                     } 
 
-
+                    if(duplicate){
+                        break;
+                    }
         
                     Collections.reverse(guessArray);    //reverses order of the guess array so that is in the correct order.
                     
                     //compares each digit in the guess array to the solution array to determine # of bulls & cows
+
                     for(int i = 0; i < 4; i++){
                         if(guessArray.get(i) == solution.get(i)){
                             bulls++;
