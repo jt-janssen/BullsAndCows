@@ -68,6 +68,12 @@ class BullsAndCows{
                         break;
                     }
 
+                    //logic so that you are not allowed to enter anything else other than 4 digits
+                    if(String.valueOf(guess).length() != 4){
+                        System.out.println(ANSI_RED + "Guess must be 4 digits. Enter another guess\n" + ANSI_RESET);
+                        break;
+                    }
+
                     //converts the inputted 4 digit int into an arraylist so that each digit can be compared
                     for(int i = 0; i < 4; i++){
                         guessNumber = guess % 10;
@@ -79,6 +85,8 @@ class BullsAndCows{
                         }
                         guessArray.add(guessNumber);
                     } 
+
+
         
                     Collections.reverse(guessArray);    //reverses order of the guess array so that is in the correct order.
                     
