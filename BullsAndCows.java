@@ -16,81 +16,110 @@ class BullsAndCows{
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
+    
+    private enum gameStates{startGame, inputAndCompare, endGame, giveSolution}
 
     public static void main(String[] args) {
-        System.out.println("<------------------------ BULLS & COWS ------------------------>");
-        System.out.println("If you want the solution before you solve it, enter 0000.\n");
-
         ArrayList<Integer> solution = new ArrayList<Integer>();
         ArrayList<Integer> guessArray = new ArrayList<Integer>(4);
-
-        // use add() method to add elements in the list
-        for(int i = 0; i < 10; i++){
-            solution.add(i);
-        }     
-
-        Collections.shuffle(solution); //shuffles array of numbers
-
-        // for(int i = 0; i < 4; i++){  //TODO will print solution; must be commented out
-        //     System.out.println(solution.get(i));
-        // }  
+        gameStates gameState = gameStates.startGame;
+        boolean gameActive = true;
+        int guessCount = 1;
 
         //define variables used in while loop
-        boolean isAnswer = false;
-        int guessCount = 1;
         int guessNumber;
         int bulls, cows;
+        Scanner keys = new Scanner(System.in);
 
-        while(!isAnswer){   //runs & accepts guesses ustil right guess is guessed
-            //resets and clears certain variables after each guess
-            guessArray.clear();
-            bulls = 0;
-            cows = 0;
-            
-            //takes in and stores user input
-            Scanner keys = new Scanner(System.in);
-            System.out.print("Enter guess " + guessCount + ": " + ANSI_YELLOW);
-            int guess = keys.nextInt(); 
-            
-            if(guess == 0000){
-                System.out.println(ANSI_RED + "Solution is: " + solution.get(0) + solution.get(1) + solution.get(2) + solution.get(3) + ANSI_RESET);
+        while(gameActive){   //runs & accepts guesses ustil right guess is guessed
+            switch(gameState){
+                case startGame: {
+                System.out.println(ANSI_BLUE + "<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
+                System.out.println("If you want the solution before you solve it, enter 0000.\n");
+                //add elements in the list
+                for(int i = 0; i < 10; i++){
+                    solution.add(i);
+                }     
+
+                Collections.shuffle(solution); //shuffles array of numbers
+                guessCount = 1;
+
+                // for(int i = 0; i < 4; i++){  //TODO will print solution; must be commented out
+                //     System.out.println(solution.get(i));
+                // }  
+
+                gameState = gameStates.inputAndCompare;
                 break;
-            }
-            
-            //converts the inputted 4 digit int into an arraylist so that each digit can be compared
-            for(int i = 0; i < 4; i++){
-                guessNumber = guess % 10;
-                guess = guess / 10;
-                if(guessArray.contains(guessNumber)){
-                    System.out.println(ANSI_RED + "Two numbers cannot be the same in a guess. Enter another guess." + ANSI_RESET);
-                    guessCount--;
+                }
+
+                case inputAndCompare: {
+                    //resets and clears certain variables after each guess
+                    bulls = 0;
+                    cows = 0;
+                    guessArray.clear();
+
+                    //takes in and stores user input
+                    System.out.print("Enter guess " + guessCount + ": " + ANSI_YELLOW);
+                    int guess = keys.nextInt(); 
+
+                    //will send to giveSolution if input is '0000'
+                    if(guess == 0000){
+                        gameState = gameStates.giveSolution;
+                        break;
+                    }
+
+                    //converts the inputted 4 digit int into an arraylist so that each digit can be compared
+                    for(int i = 0; i < 4; i++){
+                        guessNumber = guess % 10;
+                        guess = guess / 10;
+                        if(guessArray.contains(guessNumber)){
+                            System.out.println(ANSI_RED + "Two numbers cannot be the same in a guess. Enter another guess." + ANSI_RESET);
+                            guessCount--;
+                            break;
+                        }
+                        guessArray.add(guessNumber);
+                    } 
+        
+                    Collections.reverse(guessArray);    //reverses order of the guess array so that is in the correct order.
+                    
+                    //compares each digit in the guess array to the solution array to determine # of bulls & cows
+                    for(int i = 0; i < 4; i++){
+                        if(guessArray.get(i) == solution.get(i)){
+                            bulls++;
+                        } else if(guessArray.get(i) == solution.get(0) || guessArray.get(i) == solution.get(1) || guessArray.get(i) == solution.get(2) || guessArray.get(i) == solution.get(3)){
+                            cows++;
+                        }
+                    }  
+        
+                    System.out.println(ANSI_GREEN + "Bulls: " + bulls + "\tCows: " + cows + "\n" + ANSI_RESET);
+                    if (bulls == 4){
+                        System.out.println(ANSI_CYAN + "You won in " + guessCount + " guesses!");
+                        System.out.println("Number to guess: " + solution.get(0) + solution.get(1) + solution.get(2) + solution.get(3) + ANSI_RESET);
+                        gameState = gameStates.endGame;
+                    }
+                    guessCount++;
                     break;
                 }
-                guessArray.add(guessNumber);
-            } 
 
-            Collections.reverse(guessArray);    //reverses order of the guess array so that is in the correct order.
-            //System.out.println(guessArray);
-            
-            //compares each digit in the guess array to the solution array to determine # of bulls & cows
-            for(int i = 0; i < 4; i++){
-                if(guessArray.get(i) == solution.get(i)){
-                    bulls++;
-                } else if(guessArray.get(i) == solution.get(0) || guessArray.get(i) == solution.get(1) || guessArray.get(i) == solution.get(2) || guessArray.get(i) == solution.get(3)){
-                    cows++;
+                case endGame: {
+                    System.out.print("\nPlay again? Y/N: ");
+                    String playAgain = keys.next(); 
+                    if(playAgain.equals("y") || playAgain.equals("Y")){
+                        gameState = gameStates.startGame;
+                    } else if(playAgain.equals("n") || playAgain.equals("N")){
+                        gameActive = false;
+                        keys.close();
+                        break;
+                    } 
+                    break;
                 }
-            }  
 
-
-            System.out.println(ANSI_GREEN + "Bulls: " + bulls + "\tCows: " + cows + "\n" + ANSI_RESET);
-            if (bulls == 4){
-                isAnswer = true;
-                System.out.println(ANSI_CYAN + "You won in " + guessCount + " guesses!");
-                System.out.println("Number to guess: " + solution.get(0) + solution.get(1) + solution.get(2) + solution.get(3) + ANSI_RESET);
-                keys.close();   //do I need this? It worked w/o it.
+                case giveSolution: {
+                    System.out.print(ANSI_RED + "\nYou did not solve it. ");
+                    System.out.println("The solution is: " + solution.get(0) + solution.get(1) + solution.get(2) + solution.get(3) + ANSI_RESET);
+                    gameState = gameStates.endGame;
+                }
             }
-            guessCount++;
         }
-        System.out.println("<-------------------------------------------------------------->");
     }
 }
