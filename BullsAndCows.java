@@ -159,7 +159,11 @@ class BullsAndCows{
 
                 case giveSolution: {
                     System.out.print(ANSI_RED + "\nYou did not solve it. ");
-                    System.out.println("The solution is: " + solution.get(0) + solution.get(1) + solution.get(2) + solution.get(3) + ANSI_RESET);
+                    System.out.print("The solution is: ");
+                    for(int i = 0; i < solution.size(); i++){
+                        System.out.print(solution.get(i));
+                    }
+                    System.out.println(ANSI_RESET);
                     gameState = gameStates.endGame;
                 }
             }
