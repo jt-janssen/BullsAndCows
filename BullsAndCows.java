@@ -42,7 +42,7 @@ class BullsAndCows{
                 case startGame: {
                 System.out.println(ANSI_BLUE + "<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
                 System.out.println("Enter 0000 to see solution\n");
-                System.out.print("Enter number of digits you'd like to guess: ");
+                System.out.print("Enter number of digits to guess: ");
                 numGuessDigits = keys.nextInt();
 
                 if(numGuessDigits > 10){
@@ -52,6 +52,8 @@ class BullsAndCows{
                     numGuessDigits = 1;
                     System.out.println("Number of digits set to 1 (min)");
                 }
+
+                System.out.print("\n");
 
                     
                 solution.clear();
@@ -159,7 +161,7 @@ class BullsAndCows{
                 }
 
                 case giveSolution: {
-                    System.out.print(ANSI_RED + "\nYou did not solve it. ");
+                    System.out.print(ANSI_RED + "\nGame over. ");
                     System.out.print("The solution is: ");
                     for(int i = 0; i < solution.size(); i++){
                         System.out.print(solution.get(i));
