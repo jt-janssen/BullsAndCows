@@ -31,6 +31,7 @@ class BullsAndCows{
         int numGuessDigits = 4;
         int guessCount = 1;
         String output = "";
+        String gameBoard = "";
 
         //define variables used in while loop
         int bulls, cows;
@@ -40,8 +41,8 @@ class BullsAndCows{
             
             switch(gameState){
                 case startGame: {
-                System.out.println(ANSI_BLUE + "<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
-                System.out.println("Enter 0000 to see solution\n");
+                System.out.println(ANSI_BLUE + "\t\t\t<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
+                System.out.println("\t\t\t\t\t   Enter 0000 to see solution\n");
                 System.out.print("Enter number of digits to guess: ");
                 numGuessDigits = keys.nextInt();
 
@@ -55,11 +56,16 @@ class BullsAndCows{
 
                 System.out.print("\n");
 
+                gameBoard = "\t\t\t\t\tB\t|\tC\t|\tGuess\n" +
+                                        "\t\t\t\t----------------+---------------+------------------\n";
+                //System.out.println(gameBoard);
+
+
                     
                 solution.clear();
                 //add elements in the list
                 solution.clear();
-                for(int i = 0; i < 10; i++){    //TODO this might need to be cleared after each game to prevent duplicate digits
+                for(int i = 0; i < 10; i++){
                     solution.add(i);
                 }     
 
@@ -97,6 +103,7 @@ class BullsAndCows{
                         gameState = gameStates.giveSolution;
                         break;
                     }
+                    System.out.println(ANSI_RESET);
                     //reads the length
                     if(guess.length() != numGuessDigits){
                         System.out.println(ANSI_RED + "Guess must be " + numGuessDigits + " digits. Enter another guess\n" + ANSI_RESET);
@@ -115,15 +122,15 @@ class BullsAndCows{
                             }
                         }
                     }
-
-
                     if(duplicate){
                         System.out.println(ANSI_RED + "Two numbers cannot be the same in a guess. Enter another guess.\n" + ANSI_RESET);
                         break;
                     }
+
+
+
                             
                     //compares each digit in the guess array to the solution array to determine # of bulls & cows
-
                     for(int i = 0; i < numGuessDigits; i++){
                         if(guessArray[i] == solution.get(i)){
                             bulls++;
@@ -132,8 +139,10 @@ class BullsAndCows{
                         }
                     }  
 
-        
-                    System.out.println(ANSI_GREEN + "Bulls: " + bulls + "\tCows: " + cows + "\n" + ANSI_RESET);
+                    gameBoard += ANSI_GREEN + "\t\t\t\t\t" + bulls + ANSI_RESET + "\t|\t" + ANSI_GREEN + cows + ANSI_RESET +"\t|\t" + ANSI_YELLOW + guess +"\n" + ANSI_RESET;
+                    System.out.println(gameBoard);
+
+
                     if (bulls == numGuessDigits){
                         output = "";
                         System.out.println(ANSI_CYAN + "You won in " + guessCount + " guesses!");
