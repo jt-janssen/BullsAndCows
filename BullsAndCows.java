@@ -56,9 +56,9 @@ class BullsAndCows{
 
                 System.out.print("\n");
 
-                gameBoard = "\t\tB\t|\tC\t|\tGuess\n" +
-                                        "\t---------------------------------------------------\n"+
-                                        "\t\t \t|\t \t|\n";
+                gameBoard = "\t\t\t\t\tB\t|\tC\t|\tGuess\n" +
+                                        "\t\t\t\t----------------+---------------+------------------\n"+
+                                        "\t\t\t\t\t \t|\t \t|\n";
                 System.out.println(gameBoard);
 
 
@@ -140,7 +140,7 @@ class BullsAndCows{
                         }
                     }  
 
-                    gameBoard += ANSI_GREEN + "\t\t" + bulls + "\t|\t" + cows + ANSI_YELLOW +"\t|\t" + guess +"\n" + ANSI_RESET;
+                    gameBoard += ANSI_GREEN + "\t\t\t\t\t" + bulls + ANSI_RESET + "\t|\t" + ANSI_GREEN + cows + ANSI_RESET +"\t|\t" + ANSI_YELLOW + guess +"\n" + ANSI_RESET;
                     System.out.println(gameBoard);
 
 
