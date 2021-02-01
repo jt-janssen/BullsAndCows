@@ -41,8 +41,8 @@ class BullsAndCows{
             
             switch(gameState){
                 case startGame: {
-                System.out.println(ANSI_BLUE + "<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
-                System.out.println("\t\tEnter 0000 to see solution\n");
+                System.out.println(ANSI_BLUE + "\t\t\t<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
+                System.out.println("\t\t\t\t\t   Enter 0000 to see solution\n");
                 System.out.print("Enter number of digits to guess: ");
                 numGuessDigits = keys.nextInt();
 
@@ -57,9 +57,8 @@ class BullsAndCows{
                 System.out.print("\n");
 
                 gameBoard = "\t\t\t\t\tB\t|\tC\t|\tGuess\n" +
-                                        "\t\t\t\t----------------+---------------+------------------\n"+
-                                        "\t\t\t\t\t \t|\t \t|\n";
-                System.out.println(gameBoard);
+                                        "\t\t\t\t----------------+---------------+------------------\n";
+                //System.out.println(gameBoard);
 
 
                     
