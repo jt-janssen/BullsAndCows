@@ -17,11 +17,9 @@ class BullsAndCows{
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
     
-    private enum gameStates{startGame, inputAndCompare, endGame, giveSolution}
+    private enum gameStates{startGame, easyMode, hardMode, endGame, giveSolution}
 
     public static void main(String[] args) {
-        //why do some vars have to be in the method instead of outside ofit 
-
         ArrayList<Integer> solution = new ArrayList<Integer>();
         int[] guessArray;
         gameStates gameState = gameStates.startGame;
@@ -32,9 +30,12 @@ class BullsAndCows{
         int guessCount = 1;
         String output = "";
         String gameBoard = "";
+        boolean isHardMode = false; //this will always change in the first switch 
+        int modeInput = 0;
 
         //define variables used in while loop
         int bulls, cows;
+        String easyBullsCows = "";
         Scanner keys = new Scanner(System.in);
 
         while(gameActive){   //runs & accepts guesses until game is over
@@ -43,6 +44,23 @@ class BullsAndCows{
                 case startGame: {
                 System.out.println(ANSI_BLUE + "\t\t\t<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
                 System.out.println("\t\t\t\t\t   Enter 0000 to see solution\n");
+
+                while(modeInput != 1 && modeInput != 2){
+                    System.out.print("Game mode\t1: Easy\t\t2: Hard\t");
+                    modeInput = keys.nextInt();
+                    if(modeInput == 1){
+                        isHardMode = false;
+                        gameBoard = "\t\t\t\t\t \tKey\t \t|\tGuess\n" +
+                        "\t\t\t\t----------------+---------------+------------------\n";
+                    } else if(modeInput == 2){
+                        isHardMode = true;
+                        gameBoard = "\t\t\t\t\tB\t|\tC\t|\tGuess\n" +
+                        "\t\t\t\t----------------+---------------+------------------\n";
+                    }
+             }
+             modeInput = 0; //needs to reset after each round
+
+
                 System.out.print("Enter number of digits to guess: ");
                 numGuessDigits = keys.nextInt();
 
@@ -56,12 +74,6 @@ class BullsAndCows{
 
                 System.out.print("\n");
 
-                gameBoard = "\t\t\t\t\tB\t|\tC\t|\tGuess\n" +
-                                        "\t\t\t\t----------------+---------------+------------------\n";
-                //System.out.println(gameBoard);
-
-
-                    
                 solution.clear();
                 //add elements in the list
                 solution.clear();
@@ -78,13 +90,95 @@ class BullsAndCows{
 
                 // for(int i = 0; i < solution.size(); i++){  //TODO will print solution; must be commented out
                 //     System.out.print(solution.get(i));
-                // }  
+                // } 
+                
+                if(isHardMode){
+                    gameState = gameStates.hardMode;
 
-                gameState = gameStates.inputAndCompare;
+                } else {
+                    gameState = gameStates.easyMode;
+
+                }
                 break;
                 }
 
-                case inputAndCompare: {
+                case easyMode:{
+                //resets and clears certain variables after each guess
+                duplicate = false;
+                easyBullsCows = "";
+                bulls = 0;
+
+                //takes in and stores user input
+                System.out.print("Enter guess " + guessCount + ": " + ANSI_YELLOW);
+                guessArray = new int[numGuessDigits];
+                // for(int i = 0; i < guessArray.length; i++){  //TODO will print input; must be commented out
+                //     System.out.print(guessArray[i]);
+                // }  
+
+                String guess = keys.next(); 
+                //will send to giveSolution if input is '0000'
+                if(guess.equals("0000")){
+                    gameState = gameStates.giveSolution;
+                    break;
+                }
+                System.out.println(ANSI_RESET);
+                //reads the length
+                if(guess.length() != numGuessDigits){
+                    System.out.println(ANSI_RED + "Guess must be " + numGuessDigits + " digits. Enter another guess\n" + ANSI_RESET);
+                    break;
+                }
+                for(int i = 0; i < guessArray.length; i++){    //converts string to int array
+                    guessArray[i] = Character.getNumericValue(guess.charAt(i));
+                }
+
+
+
+                for(int i = 0; i < guessArray.length; i++){
+                    for(int j = i + 1; j < guessArray.length; j++){
+                        if(guessArray[i] == guessArray[j]){
+                            duplicate = true;
+                        }
+                    }
+                }
+                if(duplicate){
+                    System.out.println(ANSI_RED + "Two numbers cannot be the same in a guess. Enter another guess.\n" + ANSI_RESET);
+                    break;
+                }
+
+
+
+                        
+                //compares each digit in the guess array to the solution array to determine # of bulls & cows
+                for(int i = 0; i < numGuessDigits; i++){
+                    if(guessArray[i] == solution.get(i)){
+                        easyBullsCows += "B";
+                        bulls++;
+                    }  else if(solution.contains(guessArray[i])){
+                        easyBullsCows += "C";
+                    } else {
+                        easyBullsCows += "-";
+
+                    }
+                }  
+
+                gameBoard += ANSI_GREEN + "\t\t\t\t\t\t" + easyBullsCows + ANSI_RESET +"\t\t|\t" + ANSI_YELLOW + guess +"\n" + ANSI_RESET;
+                System.out.println(gameBoard);
+
+
+                if (bulls == numGuessDigits){
+                    output = "";
+                    System.out.println(ANSI_CYAN + "You won in " + guessCount + " guesses!");
+                    for(int i = 0; i < numGuessDigits; i++){
+                        output += solution.get(i);
+                    }
+                    System.out.println("Number to guess: " + output + ANSI_RESET);
+                    gameState = gameStates.endGame;
+                }
+                guessCount++;
+                break;
+                }
+
+                case hardMode: {
                     //resets and clears certain variables after each guess
                     duplicate = false;
                     bulls = 0;
