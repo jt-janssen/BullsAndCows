@@ -59,6 +59,8 @@ class BullsAndCows{
             switch(gameState){
                 case startGame: {
                     gameBoard = "";
+                    modeInput = 0; //needs to reset after each round
+
                 System.out.println(ANSI_BLUE + "\t\t\t<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
                 System.out.println("\t\t\t\t\t   Enter 0000 to see solution\n");
 
@@ -71,7 +73,6 @@ class BullsAndCows{
                         isHardMode = true;
                     }
                 }
-                modeInput = 0; //needs to reset after each round
 
 
                 System.out.print("\t\t\tEnter number of digits to guess: ");
@@ -85,12 +86,9 @@ class BullsAndCows{
                     System.out.println("\t\t\tNumber of digits set to 1 (min)");
                 }
 
-                if(numGuessDigits >= 1 && numGuessDigits <= 4){
-                    gameBoard += EASY_HEADER_SET[0];
-                } else {
-                    gameBoard += EASY_HEADER_SET[numGuessDigits-4];
 
-                }
+
+
 
                 System.out.print("\n");
 
@@ -113,9 +111,21 @@ class BullsAndCows{
                 // } 
                 
                 if(isHardMode){
+                    if(numGuessDigits >= 1 && numGuessDigits <= 5){
+                        gameBoard += HARD_HEADER_SET[0];
+                    } else {
+                        gameBoard += HARD_HEADER_SET[numGuessDigits-4];
+    
+                    }
                     gameState = gameStates.hardMode;
 
                 } else {
+                    if(numGuessDigits >= 1 && numGuessDigits <= 4){
+                        gameBoard += EASY_HEADER_SET[0];
+                    } else {
+                        gameBoard += EASY_HEADER_SET[numGuessDigits-4];
+    
+                    }
                     gameState = gameStates.easyMode;
                 }
                 break;
@@ -250,8 +260,9 @@ class BullsAndCows{
                         }
                     }  
 
-                    gameBoard += ANSI_GREEN + "\t\t\t\t\t\t  " + bulls + ANSI_RESET + "  |  " + ANSI_GREEN + cows + ANSI_RESET +"  |  " + ANSI_YELLOW + guess +"\n" + ANSI_RESET;
-                    System.out.println(gameBoard);
+                    // gameBoard += ANSI_GREEN + "\t\t\t\t\t\t  " + bulls + ANSI_RESET + "  |  " + ANSI_GREEN + cows + ANSI_RESET +"  |  " + ANSI_YELLOW + guess +"\n" + ANSI_RESET;
+                    // System.out.println(gameBoard);
+                    printTable(bulls, cows, guess);
 
 
                     if (bulls == numGuessDigits){
@@ -311,8 +322,20 @@ class BullsAndCows{
     }
 
     public static void printTable(int bulls, int cows, String guess){
+        final String HARD_BODY_1 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " |   " + guess;
+        final String HARD_BODY_2 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " |  " + guess;
+        final String HARD_BODY_3 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " |  " + guess;
+        final String HARD_BODY_4 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " | " + guess;
+        final String HARD_BODY_5 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " | " + guess;
+        final String HARD_BODY_6 = "\n\t\t\t\t\t\t    " + bulls + " | " + cows + " | " + guess;
+        final String HARD_BODY_7 = "\n\t\t\t\t\t\t    " + bulls + " | " + cows + " | " + guess;
+        final String HARD_BODY_8 = "\n\t\t\t\t\t           " + bulls + " | " + cows + " |  " + guess;
+        final String HARD_BODY_9 = "\n\t\t\t\t\t           " + bulls + " | " + cows + " | " + guess;
+        final String HARD_BODY_10 = "\n\t\t\t\t\t          " + bulls + " | " + cows + " | " + guess;
 
+        final String[] HARD_BODY_SET= {HARD_BODY_1, HARD_BODY_2, HARD_BODY_3, HARD_BODY_4, HARD_BODY_5, HARD_BODY_6, HARD_BODY_7, HARD_BODY_8, HARD_BODY_9, HARD_BODY_10};
 
-
+        gameBoard += HARD_BODY_SET[numGuessDigits-1];
+        System.out.println(gameBoard);
    }
 }
