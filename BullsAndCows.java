@@ -25,21 +25,15 @@ class BullsAndCows{
     static final String EASY_HEADER_9 = "\t\t\t\t\t\t    KEY    |   GUESS\n\t\t\t\t\t        -----------+-----------";
     static final String EASY_HEADER_10 = "\t\t\t\t\t\t    KEY    |    GUESS\n\t\t\t\t\t       ------------+------------";
 
-    static final String HARD_HEADER_1 = "\t\t\t\t\t\t     B | C | GUESS\n\t\t\t\t\t\t    ---+---+-------";
-    static final String HARD_HEADER_2 = "\t\t\t\t\t\t     B | C  | GUESS\n\t\t\t\t\t\t   ----+----+-------";
-    static final String HARD_HEADER_3 = "\t\t\t\t\t\t    B  |  C  | GUESS\n\t\t\t\t\t\t  -----+-----+-------";
-    static final String HARD_HEADER_4 = "\t\t\t\t\t\t    B  |  C   | GUESS\n\t\t\t\t\t         ------+------+-------";
-    static final String HARD_HEADER_5 = "\t\t\t\t\t\t   B   |   C   | GUESS\n\t\t\t\t\t        -------+-------+-------";
-    static final String HARD_HEADER_6 = "\t\t\t\t\t\t B    |    C    |  GUESS\n\t\t\t\t\t     ---------+---------+---------";
-    static final String HARD_HEADER_7 = "\t\t\t\t\t\t B    |    C     |  GUESS\n\t\t\t\t\t    ----------+----------+----------";
-    static final String HARD_HEADER_8 = "\t\t\t\t\t       B     |     C     |   GUESS\n\t\t\t\t\t  -----------+-----------+-----------";
-    static final String HARD_HEADER_9 = "\t\t\t\t\t       B     |     C      |    GUESS\n\t\t\t\t\t ------------+------------+------------";
-    static final String HARD_HEADER_10 = "\t\t\t\t\t      B      |      C      |    GUESS\n\t\t\t\t\t-------------+-------------+-------------";
-
-
+    static final String HARD_HEADER_1_5 = "\t\t\t\t\t\t     B | C | GUESS\n\t\t\t\t\t\t    ---+---+-------";
+    static final String HARD_HEADER_6 = "\t\t\t\t\t\t    B | C |  GUESS\n\t\t\t\t\t\t   ---+---+---------";
+    static final String HARD_HEADER_7 = "\t\t\t\t\t\t    B | C |  GUESS\n\t\t\t\t\t\t   ---+---+----------";
+    static final String HARD_HEADER_8 = "\t\t\t\t\t\t   B | C |   GUESS\n\t\t\t\t\t          ---+---+-----------";
+    static final String HARD_HEADER_9 = "\t\t\t\t\t\t   B | C |    GUESS\n\t\t\t\t\t          ---+---+------------";
+    static final String HARD_HEADER_10 = "\t\t\t\t\t\t  B | C |    GUESS\n\t\t\t\t\t         ---+---+-------------";
     
     static final String[] EASY_HEADER_SET= {EASY_HEADER_1_4, EASY_HEADER_5, EASY_HEADER_6, EASY_HEADER_7, EASY_HEADER_8, EASY_HEADER_9, EASY_HEADER_10};
-    static final String[] HARD_HEADER_SET= {HARD_HEADER_1, HARD_HEADER_2, HARD_HEADER_3, HARD_HEADER_4, HARD_HEADER_5, HARD_HEADER_6, HARD_HEADER_7, HARD_HEADER_8, HARD_HEADER_9, HARD_HEADER_10};
+    static final String[] HARD_HEADER_SET= {HARD_HEADER_1_5, HARD_HEADER_6, HARD_HEADER_7, HARD_HEADER_8, HARD_HEADER_9, HARD_HEADER_10};
     
     private enum gameStates{startGame, easyMode, hardMode, endGame, giveSolution}
 
@@ -185,6 +179,7 @@ class BullsAndCows{
 
                     }
                 }  
+
                 printTable(easyBullsCows, guess.toString());
 
                 if (bulls == numGuessDigits){
@@ -316,6 +311,8 @@ class BullsAndCows{
     }
 
     public static void printTable(int bulls, int cows, String guess){
-           
-    }
+
+
+
+   }
 }
