@@ -17,15 +17,29 @@ class BullsAndCows{
     static final String ANSI_CYAN = "\u001B[36m";
     static final String ANSI_WHITE = "\u001B[37m";
 
-    static final String HEADER_1_4 = "\t\t\t\t\t\t       KEY | GUESS\n\t\t\t\t\t\t     ------+-------";
-    static final String HEADER_5 = "\t\t\t\t\t\t      KEY  | GUESS\n\t\t\t\t\t\t    -------+-------";
-    static final String HEADER_6 = "\t\t\t\t\t\t      KEY  |  GUESS\n\t\t\t\t\t\t   --------+--------";
-    static final String HEADER_7 = "\t\t\t\t\t\t     KEY   |  GUESS\n\t\t\t\t\t\t  ---------+---------";
-    static final String HEADER_8 = "\t\t\t\t\t\t     KEY   |   GUESS\n\t\t\t\t\t         ----------+----------";
-    static final String HEADER_9 = "\t\t\t\t\t\t    KEY    |   GUESS\n\t\t\t\t\t        -----------+-----------";
-    static final String HEADER_10 = "\t\t\t\t\t\t    KEY    |    GUESS\n\t\t\t\t\t       ------------+------------";
+    static final String EASY_HEADER_1_4 = "\t\t\t\t\t\t       KEY | GUESS\n\t\t\t\t\t\t     ------+-------";
+    static final String EASY_HEADER_5 = "\t\t\t\t\t\t      KEY  | GUESS\n\t\t\t\t\t\t    -------+-------";
+    static final String EASY_HEADER_6 = "\t\t\t\t\t\t      KEY  |  GUESS\n\t\t\t\t\t\t   --------+--------";
+    static final String EASY_HEADER_7 = "\t\t\t\t\t\t     KEY   |  GUESS\n\t\t\t\t\t\t  ---------+---------";
+    static final String EASY_HEADER_8 = "\t\t\t\t\t\t     KEY   |   GUESS\n\t\t\t\t\t         ----------+----------";
+    static final String EASY_HEADER_9 = "\t\t\t\t\t\t    KEY    |   GUESS\n\t\t\t\t\t        -----------+-----------";
+    static final String EASY_HEADER_10 = "\t\t\t\t\t\t    KEY    |    GUESS\n\t\t\t\t\t       ------------+------------";
 
-    static final String[] HEADER_SET= {HEADER_1_4, HEADER_5, HEADER_6, HEADER_7, HEADER_8, HEADER_9, HEADER_10};
+    static final String HARD_HEADER_1 = "\t\t\t\t\t\t     B | C | GUESS\n\t\t\t\t\t\t    ---+---+-------";
+    static final String HARD_HEADER_2 = "\t\t\t\t\t\t     B | C  | GUESS\n\t\t\t\t\t\t   ----+----+-------";
+    static final String HARD_HEADER_3 = "\t\t\t\t\t\t    B  |  C  | GUESS\n\t\t\t\t\t\t  -----+-----+-------";
+    static final String HARD_HEADER_4 = "\t\t\t\t\t\t    B  |  C   | GUESS\n\t\t\t\t\t         ------+------+-------";
+    static final String HARD_HEADER_5 = "\t\t\t\t\t\t   B   |   C   | GUESS\n\t\t\t\t\t        -------+-------+-------";
+    static final String HARD_HEADER_6 = "\t\t\t\t\t\t B    |    C    |  GUESS\n\t\t\t\t\t     ---------+---------+---------";
+    static final String HARD_HEADER_7 = "\t\t\t\t\t\t B    |    C     |  GUESS\n\t\t\t\t\t    ----------+----------+----------";
+    static final String HARD_HEADER_8 = "\t\t\t\t\t       B     |     C     |   GUESS\n\t\t\t\t\t  -----------+-----------+-----------";
+    static final String HARD_HEADER_9 = "\t\t\t\t\t       B     |     C      |    GUESS\n\t\t\t\t\t ------------+------------+------------";
+    static final String HARD_HEADER_10 = "\t\t\t\t\t      B      |      C      |    GUESS\n\t\t\t\t\t-------------+-------------+-------------";
+
+
+    
+    static final String[] EASY_HEADER_SET= {EASY_HEADER_1_4, EASY_HEADER_5, EASY_HEADER_6, EASY_HEADER_7, EASY_HEADER_8, EASY_HEADER_9, EASY_HEADER_10};
+    static final String[] HARD_HEADER_SET= {HARD_HEADER_1, HARD_HEADER_2, HARD_HEADER_3, HARD_HEADER_4, HARD_HEADER_5, HARD_HEADER_6, HARD_HEADER_7, HARD_HEADER_8, HARD_HEADER_9, HARD_HEADER_10};
     
     private enum gameStates{startGame, easyMode, hardMode, endGame, giveSolution}
 
@@ -78,9 +92,9 @@ class BullsAndCows{
                 }
 
                 if(numGuessDigits >= 1 && numGuessDigits <= 4){
-                    gameBoard += HEADER_SET[0];
+                    gameBoard += EASY_HEADER_SET[0];
                 } else {
-                    gameBoard += HEADER_SET[numGuessDigits-4];
+                    gameBoard += EASY_HEADER_SET[numGuessDigits-4];
 
                 }
 
@@ -171,9 +185,7 @@ class BullsAndCows{
 
                     }
                 }  
-
                 printTable(easyBullsCows, guess.toString());
-
 
                 if (bulls == numGuessDigits){
                     output = "";
@@ -248,6 +260,11 @@ class BullsAndCows{
 
 
                     if (bulls == numGuessDigits){
+                        System.out.println(ANSI_CYAN + "\t\t\tYou won in " + guessCount + " guesses!");
+                        for(int i = 0; i < numGuessDigits; i++){
+                            output += solution.get(i);
+                        }
+                        System.out.println("\t\t\tNumber to guess: " + output + ANSI_RESET);
                         gameState = gameStates.endGame;
                     }
                     guessCount++;
@@ -256,11 +273,6 @@ class BullsAndCows{
 
                 case endGame: {
                     output = "";
-                    System.out.println(ANSI_CYAN + "\t\t\tYou won in " + guessCount + " guesses!");
-                    for(int i = 0; i < numGuessDigits; i++){
-                        output += solution.get(i);
-                    }
-                    System.out.println("\t\t\tNumber to guess: " + output + ANSI_RESET);
                     System.out.print("\n\t\t\tPlay again? Y/N: ");
                     String playAgain = keys.next(); 
                     if(playAgain.equals("y") || playAgain.equals("Y")){
@@ -287,7 +299,6 @@ class BullsAndCows{
     }
 
     public static void printTable(String easyBullsCows, String guess){
-
         final String BODY_1 = "\n\t\t\t\t\t\t        " + ANSI_GREEN + easyBullsCows + ANSI_RESET + "  |  " + ANSI_YELLOW + guess + ANSI_RESET;
         final String BODY_2 = "\n\t\t\t\t\t\t       " + ANSI_GREEN + easyBullsCows + ANSI_RESET + "  |  " + ANSI_YELLOW + guess + ANSI_RESET;
         final String BODY_3 = "\n\t\t\t\t\t\t      " + ANSI_GREEN + easyBullsCows + ANSI_RESET + "  |  " + ANSI_YELLOW + guess + ANSI_RESET;
@@ -298,9 +309,13 @@ class BullsAndCows{
         final String BODY_8 = "\n\t\t\t\t\t          " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
         final String BODY_9 = "\n\t\t\t\t\t         " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
         final String BODY_10 = "\n\t\t\t\t\t        " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
-
         final String[] BODY_SET= {BODY_1, BODY_2, BODY_3, BODY_4, BODY_5, BODY_6, BODY_7, BODY_8, BODY_9, BODY_10};
+
         gameBoard += BODY_SET[numGuessDigits-1];
         System.out.println(gameBoard);
+    }
+
+    public static void printTable(int bulls, int cows, String guess){
+           
     }
 }
