@@ -7,69 +7,81 @@ import java.util.Collections;
 import java.util.Scanner;
 
 class BullsAndCows{
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+    static final String ANSI_RESET = "\u001B[0m";
+    static final String ANSI_BLACK = "\u001B[30m";
+    static final String ANSI_RED = "\u001B[31m";
+    static final String ANSI_GREEN = "\u001B[32m";
+    static final String ANSI_YELLOW = "\u001B[33m";
+    static final String ANSI_BLUE = "\u001B[34m";
+    static final String ANSI_PURPLE = "\u001B[35m";
+    static final String ANSI_CYAN = "\u001B[36m";
+    static final String ANSI_WHITE = "\u001B[37m";
+
+    static final String HEADER_1_4 = "\t\t\t\t\t\t       KEY | GUESS\n\t\t\t\t\t\t     ------+-------";
+    static final String HEADER_5 = "\t\t\t\t\t\t      KEY  | GUESS\n\t\t\t\t\t\t    -------+-------";
+    static final String HEADER_6 = "\t\t\t\t\t\t      KEY  |  GUESS\n\t\t\t\t\t\t   --------+--------";
+    static final String HEADER_7 = "\t\t\t\t\t\t     KEY   |  GUESS\n\t\t\t\t\t\t  ---------+---------";
+    static final String HEADER_8 = "\t\t\t\t\t\t     KEY   |   GUESS\n\t\t\t\t\t         ----------+----------";
+    static final String HEADER_9 = "\t\t\t\t\t\t    KEY    |   GUESS\n\t\t\t\t\t        -----------+-----------";
+    static final String HEADER_10 = "\t\t\t\t\t\t    KEY    |    GUESS\n\t\t\t\t\t       ------------+------------";
+
+    static final String[] HEADER_SET= {HEADER_1_4, HEADER_5, HEADER_6, HEADER_7, HEADER_8, HEADER_9, HEADER_10};
     
     private enum gameStates{startGame, easyMode, hardMode, endGame, giveSolution}
 
+    static boolean gameActive = true;
+    static boolean duplicate = false;
+    static int numGuessDigits = 4;
+    static int guessCount = 1;
+    static String output = "";
+    static String gameBoard = "";
+    static boolean isHardMode = false; //this will always change in the first switch 
+    static int modeInput = 0;
+
+    static ArrayList<Integer> solution = new ArrayList<Integer>();
+    static int[] guessArray;
+    static gameStates gameState = gameStates.startGame;
+
+    static int bulls, cows;
+    static String easyBullsCows = "";
+    static Scanner keys = new Scanner(System.in);
+
     public static void main(String[] args) {
-        ArrayList<Integer> solution = new ArrayList<Integer>();
-        int[] guessArray;
-        gameStates gameState = gameStates.startGame;
-
-        boolean gameActive = true;
-        boolean duplicate = false;
-        int numGuessDigits = 4;
-        int guessCount = 1;
-        String output = "";
-        String gameBoard = "";
-        boolean isHardMode = false; //this will always change in the first switch 
-        int modeInput = 0;
-
-        //define variables used in while loop
-        int bulls, cows;
-        String easyBullsCows = "";
-        Scanner keys = new Scanner(System.in);
-
         while(gameActive){   //runs & accepts guesses until game is over
-            
             switch(gameState){
                 case startGame: {
+                    gameBoard = "";
                 System.out.println(ANSI_BLUE + "\t\t\t<------------------------ BULLS & COWS ------------------------>" + ANSI_RESET);
                 System.out.println("\t\t\t\t\t   Enter 0000 to see solution\n");
 
                 while(modeInput != 1 && modeInput != 2){
-                    System.out.print("Game mode\t1: Easy\t\t2: Hard\t");
+                    System.out.print("\t\t\tGame mode\t" + ANSI_CYAN + "1: Easy\t\t2: Hard" + ANSI_RESET + "\t\tSelection: ");
                     modeInput = keys.nextInt();
                     if(modeInput == 1){
                         isHardMode = false;
-                        gameBoard = "\t\t\t\t\t \tKey\t \t|\tGuess\n" +
-                        "\t\t\t\t----------------+---------------+------------------\n";
                     } else if(modeInput == 2){
                         isHardMode = true;
-                        gameBoard = "\t\t\t\t\tB\t|\tC\t|\tGuess\n" +
-                        "\t\t\t\t----------------+---------------+------------------\n";
                     }
-             }
-             modeInput = 0; //needs to reset after each round
+                }
+                modeInput = 0; //needs to reset after each round
 
 
-                System.out.print("Enter number of digits to guess: ");
+                System.out.print("\t\t\tEnter number of digits to guess: ");
                 numGuessDigits = keys.nextInt();
 
                 if(numGuessDigits > 10){
                     numGuessDigits = 10;
-                    System.out.println("Number of digits set to 10 (max)");
+                    System.out.println("\t\t\tNumber of digits set to 10 (max)");
                 } else if(numGuessDigits < 1){
                     numGuessDigits = 1;
-                    System.out.println("Number of digits set to 1 (min)");
+                    System.out.println("\t\t\tNumber of digits set to 1 (min)");
+                }
+
+                if(numGuessDigits >= 1 && numGuessDigits <= 4){
+                    gameBoard += HEADER_SET[0];
+                } else {
+                    gameBoard += HEADER_SET[numGuessDigits-4];
+
                 }
 
                 System.out.print("\n");
@@ -97,7 +109,6 @@ class BullsAndCows{
 
                 } else {
                     gameState = gameStates.easyMode;
-
                 }
                 break;
                 }
@@ -109,7 +120,7 @@ class BullsAndCows{
                 bulls = 0;
 
                 //takes in and stores user input
-                System.out.print("Enter guess " + guessCount + ": " + ANSI_YELLOW);
+                System.out.print("\t\t\tEnter guess " + guessCount + ": " + ANSI_YELLOW);
                 guessArray = new int[numGuessDigits];
                 // for(int i = 0; i < guessArray.length; i++){  //TODO will print input; must be commented out
                 //     System.out.print(guessArray[i]);
@@ -124,7 +135,7 @@ class BullsAndCows{
                 System.out.println(ANSI_RESET);
                 //reads the length
                 if(guess.length() != numGuessDigits){
-                    System.out.println(ANSI_RED + "Guess must be " + numGuessDigits + " digits. Enter another guess\n" + ANSI_RESET);
+                    System.out.println(ANSI_RED + "\t\t\tGuess must be " + numGuessDigits + " digits. Enter another guess\n" + ANSI_RESET);
                     break;
                 }
                 for(int i = 0; i < guessArray.length; i++){    //converts string to int array
@@ -141,7 +152,7 @@ class BullsAndCows{
                     }
                 }
                 if(duplicate){
-                    System.out.println(ANSI_RED + "Two numbers cannot be the same in a guess. Enter another guess.\n" + ANSI_RESET);
+                    System.out.println(ANSI_RED + "\t\t\tTwo numbers cannot be the same in a guess. Enter another guess.\n" + ANSI_RESET);
                     break;
                 }
 
@@ -161,17 +172,16 @@ class BullsAndCows{
                     }
                 }  
 
-                gameBoard += ANSI_GREEN + "\t\t\t\t\t\t" + easyBullsCows + ANSI_RESET +"\t\t|\t" + ANSI_YELLOW + guess +"\n" + ANSI_RESET;
-                System.out.println(gameBoard);
+                printTable(easyBullsCows, guess.toString());
 
 
                 if (bulls == numGuessDigits){
                     output = "";
-                    System.out.println(ANSI_CYAN + "You won in " + guessCount + " guesses!");
+                    System.out.println(ANSI_CYAN + "\t\t\tYou won in " + guessCount + " guesses!");
                     for(int i = 0; i < numGuessDigits; i++){
                         output += solution.get(i);
                     }
-                    System.out.println("Number to guess: " + output + ANSI_RESET);
+                    System.out.println("\t\t\tNumber to guess: " + output + ANSI_RESET);
                     gameState = gameStates.endGame;
                 }
                 guessCount++;
@@ -185,7 +195,7 @@ class BullsAndCows{
                     cows = 0;
 
                     //takes in and stores user input
-                    System.out.print("Enter guess " + guessCount + ": " + ANSI_YELLOW);
+                    System.out.print("\t\t\tEnter guess " + guessCount + ": " + ANSI_YELLOW);
                     guessArray = new int[numGuessDigits];
                     // for(int i = 0; i < guessArray.length; i++){  //TODO will print input; must be commented out
                     //     System.out.print(guessArray[i]);
@@ -200,7 +210,7 @@ class BullsAndCows{
                     System.out.println(ANSI_RESET);
                     //reads the length
                     if(guess.length() != numGuessDigits){
-                        System.out.println(ANSI_RED + "Guess must be " + numGuessDigits + " digits. Enter another guess\n" + ANSI_RESET);
+                        System.out.println(ANSI_RED + "\t\t\tGuess must be " + numGuessDigits + " digits. Enter another guess\n" + ANSI_RESET);
                         break;
                     }
                     for(int i = 0; i < guessArray.length; i++){    //converts string to int array
@@ -217,7 +227,7 @@ class BullsAndCows{
                         }
                     }
                     if(duplicate){
-                        System.out.println(ANSI_RED + "Two numbers cannot be the same in a guess. Enter another guess.\n" + ANSI_RESET);
+                        System.out.println(ANSI_RED + "\t\t\tTwo numbers cannot be the same in a guess. Enter another guess.\n" + ANSI_RESET);
                         break;
                     }
 
@@ -233,17 +243,11 @@ class BullsAndCows{
                         }
                     }  
 
-                    gameBoard += ANSI_GREEN + "\t\t\t\t\t" + bulls + ANSI_RESET + "\t|\t" + ANSI_GREEN + cows + ANSI_RESET +"\t|\t" + ANSI_YELLOW + guess +"\n" + ANSI_RESET;
+                    gameBoard += ANSI_GREEN + "\t\t\t\t\t\t  " + bulls + ANSI_RESET + "  |  " + ANSI_GREEN + cows + ANSI_RESET +"  |  " + ANSI_YELLOW + guess +"\n" + ANSI_RESET;
                     System.out.println(gameBoard);
 
 
                     if (bulls == numGuessDigits){
-                        output = "";
-                        System.out.println(ANSI_CYAN + "You won in " + guessCount + " guesses!");
-                        for(int i = 0; i < numGuessDigits; i++){
-                            output += solution.get(i);
-                        }
-                        System.out.println("Number to guess: " + output + ANSI_RESET);
                         gameState = gameStates.endGame;
                     }
                     guessCount++;
@@ -251,7 +255,13 @@ class BullsAndCows{
                 }
 
                 case endGame: {
-                    System.out.print("\nPlay again? Y/N: ");
+                    output = "";
+                    System.out.println(ANSI_CYAN + "\t\t\tYou won in " + guessCount + " guesses!");
+                    for(int i = 0; i < numGuessDigits; i++){
+                        output += solution.get(i);
+                    }
+                    System.out.println("\t\t\tNumber to guess: " + output + ANSI_RESET);
+                    System.out.print("\n\t\t\tPlay again? Y/N: ");
                     String playAgain = keys.next(); 
                     if(playAgain.equals("y") || playAgain.equals("Y")){
                         gameState = gameStates.startGame;
@@ -264,8 +274,8 @@ class BullsAndCows{
                 }
 
                 case giveSolution: {
-                    System.out.print(ANSI_RED + "\nGame over. ");
-                    System.out.print("The solution is: ");
+                    System.out.print(ANSI_RED + "\n\t\t\tGame over. ");
+                    System.out.print("\t\t\tThe solution is: ");
                     for(int i = 0; i < solution.size(); i++){
                         System.out.print(solution.get(i));
                     }
@@ -274,5 +284,23 @@ class BullsAndCows{
                 }
             }
         }
+    }
+
+    public static void printTable(String easyBullsCows, String guess){
+
+        final String BODY_1 = "\n\t\t\t\t\t\t        " + ANSI_GREEN + easyBullsCows + ANSI_RESET + "  |  " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String BODY_2 = "\n\t\t\t\t\t\t       " + ANSI_GREEN + easyBullsCows + ANSI_RESET + "  |  " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String BODY_3 = "\n\t\t\t\t\t\t      " + ANSI_GREEN + easyBullsCows + ANSI_RESET + "  |  " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String BODY_4 = "\n\t\t\t\t\t\t      " + ANSI_GREEN + easyBullsCows + ANSI_RESET + " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String BODY_5 = "\n\t\t\t\t\t\t     " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String BODY_6 = "\n\t\t\t\t\t\t    " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String BODY_7 = "\n\t\t\t\t\t\t   " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String BODY_8 = "\n\t\t\t\t\t          " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String BODY_9 = "\n\t\t\t\t\t         " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String BODY_10 = "\n\t\t\t\t\t        " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+
+        final String[] BODY_SET= {BODY_1, BODY_2, BODY_3, BODY_4, BODY_5, BODY_6, BODY_7, BODY_8, BODY_9, BODY_10};
+        gameBoard += BODY_SET[numGuessDigits-1];
+        System.out.println(gameBoard);
     }
 }
