@@ -17,22 +17,23 @@ class BullsAndCows{
     static final String ANSI_CYAN = "\u001B[36m";
     static final String ANSI_WHITE = "\u001B[37m";
 
-    static final String EASY_HEADER_1_4 = "\t\t\t\t\t\t       KEY | GUESS\n\t\t\t\t\t\t     ------+-------";
+    static final String EASY_HEADER_1_3 = "\t\t\t\t\t\t       KEY | GUESS\n\t\t\t\t\t\t      -----+-------";
+    static final String EASY_HEADER_4 = "\t\t\t\t\t\t       KEY | GUESS\n\t\t\t\t\t\t     ------+-------";
     static final String EASY_HEADER_5 = "\t\t\t\t\t\t      KEY  | GUESS\n\t\t\t\t\t\t    -------+-------";
     static final String EASY_HEADER_6 = "\t\t\t\t\t\t      KEY  |  GUESS\n\t\t\t\t\t\t   --------+--------";
     static final String EASY_HEADER_7 = "\t\t\t\t\t\t     KEY   |  GUESS\n\t\t\t\t\t\t  ---------+---------";
-    static final String EASY_HEADER_8 = "\t\t\t\t\t\t     KEY   |   GUESS\n\t\t\t\t\t         ----------+----------";
+    static final String EASY_HEADER_8 = "\t\t\t\t\t\t     KEY   |  GUESS\n\t\t\t\t\t         ----------+----------";
     static final String EASY_HEADER_9 = "\t\t\t\t\t\t    KEY    |   GUESS\n\t\t\t\t\t        -----------+-----------";
     static final String EASY_HEADER_10 = "\t\t\t\t\t\t    KEY    |    GUESS\n\t\t\t\t\t       ------------+------------";
 
     static final String HARD_HEADER_1_5 = "\t\t\t\t\t\t     B | C | GUESS\n\t\t\t\t\t\t    ---+---+-------";
-    static final String HARD_HEADER_6 = "\t\t\t\t\t\t    B | C |  GUESS\n\t\t\t\t\t\t   ---+---+---------";
-    static final String HARD_HEADER_7 = "\t\t\t\t\t\t    B | C |  GUESS\n\t\t\t\t\t\t   ---+---+----------";
-    static final String HARD_HEADER_8 = "\t\t\t\t\t\t   B | C |   GUESS\n\t\t\t\t\t          ---+---+-----------";
-    static final String HARD_HEADER_9 = "\t\t\t\t\t\t   B | C |    GUESS\n\t\t\t\t\t          ---+---+------------";
-    static final String HARD_HEADER_10 = "\t\t\t\t\t\t  B | C |    GUESS\n\t\t\t\t\t         ---+---+-------------";
+    static final String HARD_HEADER_6 = "\t\t\t\t\t\t    B | C | GUESS\n\t\t\t\t\t\t   ---+---+--------";
+    static final String HARD_HEADER_7 = "\t\t\t\t\t\t    B | C |  GUESS\n\t\t\t\t\t\t   ---+---+---------";
+    static final String HARD_HEADER_8 = "\t\t\t\t\t\t   B | C |  GUESS\n\t\t\t\t\t          ---+---+----------";
+    static final String HARD_HEADER_9 = "\t\t\t\t\t\t   B | C |   GUESS\n\t\t\t\t\t          ---+---+-----------";
+    static final String HARD_HEADER_10 = "\t\t\t\t\t\t  B | C |   GUESS\n\t\t\t\t\t         ---+---+------------";
     
-    static final String[] EASY_HEADER_SET= {EASY_HEADER_1_4, EASY_HEADER_5, EASY_HEADER_6, EASY_HEADER_7, EASY_HEADER_8, EASY_HEADER_9, EASY_HEADER_10};
+    static final String[] EASY_HEADER_SET= {EASY_HEADER_1_3, EASY_HEADER_4, EASY_HEADER_5, EASY_HEADER_6, EASY_HEADER_7, EASY_HEADER_8, EASY_HEADER_9, EASY_HEADER_10};
     static final String[] HARD_HEADER_SET= {HARD_HEADER_1_5, HARD_HEADER_6, HARD_HEADER_7, HARD_HEADER_8, HARD_HEADER_9, HARD_HEADER_10};
     
     private enum gameStates{startGame, easyMode, hardMode, endGame, giveSolution}
@@ -114,16 +115,16 @@ class BullsAndCows{
                     if(numGuessDigits >= 1 && numGuessDigits <= 5){
                         gameBoard += HARD_HEADER_SET[0];
                     } else {
-                        gameBoard += HARD_HEADER_SET[numGuessDigits-4];
+                        gameBoard += HARD_HEADER_SET[numGuessDigits-5];
     
                     }
                     gameState = gameStates.hardMode;
 
                 } else {
-                    if(numGuessDigits >= 1 && numGuessDigits <= 4){
+                    if(numGuessDigits >= 1 && numGuessDigits <= 3){
                         gameBoard += EASY_HEADER_SET[0];
                     } else {
-                        gameBoard += EASY_HEADER_SET[numGuessDigits-4];
+                        gameBoard += EASY_HEADER_SET[numGuessDigits-3];
     
                     }
                     gameState = gameStates.easyMode;
@@ -307,7 +308,7 @@ class BullsAndCows{
     public static void printTable(String easyBullsCows, String guess){
         final String BODY_1 = "\n\t\t\t\t\t\t        " + ANSI_GREEN + easyBullsCows + ANSI_RESET + "  |  " + ANSI_YELLOW + guess + ANSI_RESET;
         final String BODY_2 = "\n\t\t\t\t\t\t       " + ANSI_GREEN + easyBullsCows + ANSI_RESET + "  |  " + ANSI_YELLOW + guess + ANSI_RESET;
-        final String BODY_3 = "\n\t\t\t\t\t\t      " + ANSI_GREEN + easyBullsCows + ANSI_RESET + "  |  " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String BODY_3 = "\n\t\t\t\t\t\t       " + ANSI_GREEN + easyBullsCows + ANSI_RESET + " |  " + ANSI_YELLOW + guess + ANSI_RESET;
         final String BODY_4 = "\n\t\t\t\t\t\t      " + ANSI_GREEN + easyBullsCows + ANSI_RESET + " | " + ANSI_YELLOW + guess + ANSI_RESET;
         final String BODY_5 = "\n\t\t\t\t\t\t     " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
         final String BODY_6 = "\n\t\t\t\t\t\t    " + ANSI_GREEN + easyBullsCows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
@@ -329,9 +330,9 @@ class BullsAndCows{
         final String HARD_BODY_5 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " | " + guess;
         final String HARD_BODY_6 = "\n\t\t\t\t\t\t    " + bulls + " | " + cows + " | " + guess;
         final String HARD_BODY_7 = "\n\t\t\t\t\t\t    " + bulls + " | " + cows + " | " + guess;
-        final String HARD_BODY_8 = "\n\t\t\t\t\t           " + bulls + " | " + cows + " |  " + guess;
+        final String HARD_BODY_8 = "\n\t\t\t\t\t           " + bulls + " | " + cows + " | " + guess;
         final String HARD_BODY_9 = "\n\t\t\t\t\t           " + bulls + " | " + cows + " | " + guess;
-        final String HARD_BODY_10 = "\n\t\t\t\t\t          " + bulls + " | " + cows + " | " + guess;
+        final String HARD_BODY_10 = "\n\t\t\t\t\t          " + bulls + " | " + cows + " | " + guess;    //TODO make this change if bulls or cows is double digits
 
         final String[] HARD_BODY_SET= {HARD_BODY_1, HARD_BODY_2, HARD_BODY_3, HARD_BODY_4, HARD_BODY_5, HARD_BODY_6, HARD_BODY_7, HARD_BODY_8, HARD_BODY_9, HARD_BODY_10};
 
