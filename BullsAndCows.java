@@ -323,16 +323,16 @@ class BullsAndCows{
     }
 
     public static void printTable(int bulls, int cows, String guess){
-        final String HARD_BODY_1 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " |   " + guess;
-        final String HARD_BODY_2 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " |  " + guess;
-        final String HARD_BODY_3 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " |  " + guess;
-        final String HARD_BODY_4 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " | " + guess;
-        final String HARD_BODY_5 = "\n\t\t\t\t\t\t     " + bulls + " | " + cows + " | " + guess;
-        final String HARD_BODY_6 = "\n\t\t\t\t\t\t    " + bulls + " | " + cows + " | " + guess;
-        final String HARD_BODY_7 = "\n\t\t\t\t\t\t    " + bulls + " | " + cows + " | " + guess;
-        final String HARD_BODY_8 = "\n\t\t\t\t\t           " + bulls + " | " + cows + " | " + guess;
-        final String HARD_BODY_9 = "\n\t\t\t\t\t           " + bulls + " | " + cows + " | " + guess;
-        final String HARD_BODY_10 = "\n\t\t\t\t\t          " + bulls + " | " + cows + " | " + guess;    //TODO make this change if bulls or cows is double digits
+        final String HARD_BODY_1 = "\n\t\t\t\t\t\t     " + ANSI_GREEN + bulls + ANSI_RESET +  " | " + ANSI_GREEN + cows + ANSI_RESET +  " |   " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String HARD_BODY_2 = "\n\t\t\t\t\t\t     " + ANSI_GREEN + bulls + ANSI_RESET +  " | " + ANSI_GREEN + cows + ANSI_RESET +  " |  " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String HARD_BODY_3 = "\n\t\t\t\t\t\t     " + ANSI_GREEN + bulls + ANSI_RESET +  " | " + ANSI_GREEN + cows + ANSI_RESET +  " |  " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String HARD_BODY_4 = "\n\t\t\t\t\t\t     " + ANSI_GREEN + bulls + ANSI_RESET +  " | " + ANSI_GREEN + cows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String HARD_BODY_5 = "\n\t\t\t\t\t\t     " + ANSI_GREEN + bulls + ANSI_RESET +  " | " + ANSI_GREEN + cows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String HARD_BODY_6 = "\n\t\t\t\t\t\t    " + ANSI_GREEN + bulls + ANSI_RESET +  " | " + ANSI_GREEN + cows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String HARD_BODY_7 = "\n\t\t\t\t\t\t    " + ANSI_GREEN + bulls + ANSI_RESET +  " | " + ANSI_GREEN + cows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String HARD_BODY_8 = "\n\t\t\t\t\t           " + ANSI_GREEN + bulls + ANSI_RESET +  " | " + ANSI_GREEN + cows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String HARD_BODY_9 = "\n\t\t\t\t\t           " + ANSI_GREEN + bulls + ANSI_RESET +  " | " + ANSI_GREEN + cows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;
+        final String HARD_BODY_10 = "\n\t\t\t\t\t          " + ANSI_GREEN + bulls + ANSI_RESET +  " | " + ANSI_GREEN + cows + ANSI_RESET +  " | " + ANSI_YELLOW + guess + ANSI_RESET;    //TODO make this change if bulls or cows is double digits
 
         final String[] HARD_BODY_SET= {HARD_BODY_1, HARD_BODY_2, HARD_BODY_3, HARD_BODY_4, HARD_BODY_5, HARD_BODY_6, HARD_BODY_7, HARD_BODY_8, HARD_BODY_9, HARD_BODY_10};
 
