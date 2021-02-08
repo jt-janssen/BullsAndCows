@@ -10,7 +10,7 @@ A command line program to guess your Bulls and Cows number
 * Download the code in this repository (files may be placed in any directory)
 * Open your command line application and navigate to the BullsAndCows/Solver directory
 * Enter the command `java Solver.java`
-* If you're on a Mac and would like to create an executable shortcut, create a .command file with the following: `java <filepath>/Solver.java`
+* If you're on a Mac and would like to create an executable shortcut, create a .command file with the following: `java <filepath>/Solver.java` There is a .png file in the Asset folder if you'd like a unique icon.
 
 # How to Use
 * When you run the program, it will output a first guess
