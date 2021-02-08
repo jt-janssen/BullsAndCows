@@ -10,6 +10,7 @@ A command line number guessing game
 * Download the code in this repository (files may be placed in any directory)
 * Open your command line application and navigate to the BullsAndCows directory
 * Enter the command `java BullsAndCows.java`
+  * Works best with a terminal width of 120 characters
 * If you're on a Mac and would like to create an executable shortcut, create a .command file with the following: `java <filepath>/BullsAndCows.java`. There is a .png file in the Asset folder if you'd like a unique icon.
 
 # How to Play
@@ -19,3 +20,7 @@ Bulls and Cows is a number guessing game. The program will generate a secret num
   * Hard mode only tells you how many Bulls and Cows are in your guess.
 * Next, select how many digits to guess - 4 is standard.
 * Start guessing!
+
+# Other Files
+* Also in this repository is a Solver program
+  * See the README for that in its respective folder

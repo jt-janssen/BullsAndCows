@@ -59,7 +59,7 @@ class Solver{
                     } else if(totalRight == 1){
                         oneOfFourCorrect(guess);
                     } else if(totalRight == 2){
-                        twoOfFourCorrect(guess);;
+                        twoOfFourCorrect(guess);
                     } else if(totalRight == 3){
                         threeOfFourCorrect(guess);
                     } else if(totalRight == 4){
