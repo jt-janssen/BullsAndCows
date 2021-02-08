@@ -1,5 +1,13 @@
+/*
+Created by JT Janssen
+*/
+
+package Solver; //not sure why i need this but it wont run w/o
+
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
+
 
 
 
@@ -16,30 +24,50 @@ class Solver{
 
     static ArrayList<String> combos = new ArrayList<String>();
     static Random random = new Random();
+    static Scanner keys = new Scanner(System.in);
+    static boolean gameActive = true;
+
+    static int counter = 1;
 
     public static void main(String[] args) {
         createCombos();
+        while(gameActive){
+            String guess = chooseRandomGuess();
+            System.out.println("Guess " + counter + ": " + guess);
+            System.out.print("Number of bulls: ");
+            int bulls = keys.nextInt();
 
+            System.out.print("Number of cows: ");
+            int cows = keys.nextInt();
 
-        //ENTER STUFF HERE
-        twoOfFourCorrect("1234");
-        noBulls("1234");
+            int totalRight = bulls + cows;
 
-        oneBull("4693");
-        twoOfFourCorrect("4693");
+            if(totalRight == 0){
+                noNumbers(guess);
+            } else if(totalRight == 1){
+                oneOfFourCorrect(guess);
+            } else if(totalRight == 2){
+                twoOfFourCorrect(guess);;
+            } else if(totalRight == 3){
+                threeOfFourCorrect(guess);
+            } else if(totalRight == 4){
+                fourOfFourCorrect(guess);
+            }
 
-        twoOfFourCorrect("6482");
-        noBulls("6482");
-
-        oneBull("9148");
-        twoOfFourCorrect("9148");
-
-        oneBull("4716");
-        twoOfFourCorrect("4716");
-
-
-
-        System.out.println(chooseRandomGuess());
+            if(bulls == 0){
+                noBulls(guess);
+            } else if(bulls == 1){
+                oneBull(guess);
+            } else if(bulls == 2){
+                twoBulls(guess);;
+            } else if(bulls == 3){
+                threeBulls(guess);
+            } else if(bulls == 4){
+                System.out.println("Yay!");
+                gameActive = false;
+            }
+            counter++;
+        }
     }
 
 
@@ -55,8 +83,8 @@ class Solver{
                 combos.remove(i);
             }
         }
-        // System.out.println(ANSI_BLUE + combos.toString());
-        System.out.println(ANSI_RED + combos.size() + ANSI_RESET);
+        System.out.println(ANSI_BLUE + combos.toString());
+        System.out.println(ANSI_RED + combos.size() + " possibilities left" + ANSI_RESET);
     }
     
     //TODO __make SEPERATE methods that check for cows, call on these methods, but if they are in the same pos, then remove - add to noBull()
@@ -66,17 +94,23 @@ class Solver{
         String c = ""+x.charAt(2);
         String d = ""+x.charAt(3); 
 
-        //only three of the four numbers entered are correct
+        //only one of the four numbers entered are correct
         for(int i = combos.size()-1; i >= 0; i--){
-            if(combos.get(i).contains(a) ^ combos.get(i).contains(b) ^ combos.get(i).contains(c) ^ combos.get(i).contains(d)){
+            if(combos.get(i).contains(a) && !(combos.get(i).contains(b) || combos.get(i).contains(c) || combos.get(i).contains(d))){
+ 
+            } else if (combos.get(i).contains(b) && !(combos.get(i).contains(a) || combos.get(i).contains(c) || combos.get(i).contains(d))){
+
+            } else if (combos.get(i).contains(c) && !(combos.get(i).contains(b) || combos.get(i).contains(a) || combos.get(i).contains(d))){
+
+            } else if (combos.get(i).contains(d) && !(combos.get(i).contains(b) || combos.get(i).contains(c) || combos.get(i).contains(a))){
 
             } else {
                 combos.remove(i);
             }
         }
 
-        // System.out.println(ANSI_BLUE + combos.toString());
-        System.out.println(ANSI_RED + combos.size() + ANSI_RESET);
+        System.out.println(ANSI_BLUE + combos.toString());
+        System.out.println(ANSI_RED + combos.size() + " possibilities left" + ANSI_RESET);
     }
     static void twoOfFourCorrect(String x){
         String a = ""+x.charAt(0);
@@ -86,28 +120,25 @@ class Solver{
 
         //only two of the four numbers entered are correct
         for(int i = combos.size()-1; i >= 0; i--){
-            //next else if removes it if all 4 are present -> must be first bc the other ones will run if its not
-            if(combos.get(i).contains(a) && combos.get(i).contains(b) && combos.get(i).contains(c) && combos.get(i).contains(d)){
-                combos.remove(i);
-            } else if(combos.get(i).contains(a) && combos.get(i).contains(b)){
+            if(combos.get(i).contains(a) && combos.get(i).contains(b) && !(combos.get(i).contains(c) || combos.get(i).contains(d))){
                 //This is what we want to keep, so when none of these actually run, it will go to the else and remove
-            } else if(combos.get(i).contains(a) && combos.get(i).contains(c)){
+            } else if(combos.get(i).contains(a) && combos.get(i).contains(c) && !(combos.get(i).contains(b) || combos.get(i).contains(d))){
 
-            } else if(combos.get(i).contains(a) && combos.get(i).contains(d)){
+            } else if(combos.get(i).contains(a) && combos.get(i).contains(d) && !(combos.get(i).contains(b) || combos.get(i).contains(c))){
 
-            } else if(combos.get(i).contains(b) && combos.get(i).contains(c)){
+            } else if(combos.get(i).contains(b) && combos.get(i).contains(c) && !(combos.get(i).contains(a) || combos.get(i).contains(d))){
 
-            } else if(combos.get(i).contains(b) && combos.get(i).contains(d)){
+            } else if(combos.get(i).contains(b) && combos.get(i).contains(d) && !(combos.get(i).contains(c) || combos.get(i).contains(a))){
 
-            }else if(combos.get(i).contains(c) && combos.get(i).contains(d)){
+            }else if(combos.get(i).contains(c) && combos.get(i).contains(d) && !(combos.get(i).contains(a) || combos.get(i).contains(b))){
 
             }else {
                 combos.remove(i);
             }
         }
 
-        // System.out.println(ANSI_BLUE + combos.toString());
-        System.out.println(ANSI_RED + combos.size() + ANSI_RESET);
+        System.out.println(ANSI_BLUE + combos.toString());
+        System.out.println(ANSI_RED + combos.size() + " possibilities left" + ANSI_RESET);
 
     }
     static void threeOfFourCorrect(String x){
@@ -119,23 +150,21 @@ class Solver{
         //only three of the four numbers entered are correct
         for(int i = combos.size()-1; i >= 0; i--){
             //next else if removes it if all 4 are present -> must be first bc the other ones will run if its not
-            if(combos.get(i).contains(a) && combos.get(i).contains(b) && combos.get(i).contains(c) && combos.get(i).contains(d)){
-                combos.remove(i);
-            } else if(combos.get(i).contains(a) && combos.get(i).contains(b) && combos.get(i).contains(c)){
+            if(combos.get(i).contains(a) && combos.get(i).contains(b) && combos.get(i).contains(c) && !combos.get(i).contains(d)){
                 //This is what we want to keep, so when none of these actually run, it will go to the else and remove
-            } else if(combos.get(i).contains(b) && combos.get(i).contains(c) && combos.get(i).contains(d)){
+            } else if(combos.get(i).contains(b) && combos.get(i).contains(c) && combos.get(i).contains(d) && !combos.get(i).contains(a)){
 
-            } else if(combos.get(i).contains(a) && combos.get(i).contains(c) && combos.get(i).contains(d)){
+            } else if(combos.get(i).contains(a) && combos.get(i).contains(c) && combos.get(i).contains(d) && !combos.get(i).contains(b)){
 
-            } else if(combos.get(i).contains(a) && combos.get(i).contains(b) && combos.get(i).contains(d)){
+            } else if(combos.get(i).contains(a) && combos.get(i).contains(b) && combos.get(i).contains(d) && !combos.get(i).contains(c)){
 
             } else {
                 combos.remove(i);
             }
         }
 
-        //System.out.println(ANSI_BLUE + combos.toString());
-        System.out.println(ANSI_RED + combos.size() + ANSI_RESET);
+        System.out.println(ANSI_BLUE + combos.toString());
+        System.out.println(ANSI_RED + combos.size() + " possibilities left" + ANSI_RESET);
     }
     static void fourOfFourCorrect(String x){
         String a = ""+x.charAt(0);
@@ -152,8 +181,8 @@ class Solver{
             }
         }
 
-        //System.out.println(ANSI_BLUE + combos.toString());
-        System.out.println(ANSI_RED + combos.size() + ANSI_RESET);
+        System.out.println(ANSI_BLUE + combos.toString());
+        System.out.println(ANSI_RED + combos.size() + " possibilities left" + ANSI_RESET);
     }
 
     static void noBulls(String x){
@@ -167,8 +196,8 @@ class Solver{
                 combos.remove(i);
             }
         }
-        //System.out.println(ANSI_BLUE + combos.toString());
-        System.out.println(ANSI_RED + combos.size() + ANSI_RESET);
+        System.out.println(ANSI_BLUE + combos.toString());
+        System.out.println(ANSI_RED + combos.size() + " possibilities left" + ANSI_RESET);
     }
     static void oneBull(String x){
         String a = ""+x.charAt(0);
@@ -190,8 +219,8 @@ class Solver{
                 combos.remove(i);
             }
         }
-        //System.out.println(ANSI_BLUE + combos.toString());
-        System.out.println(ANSI_RED + combos.size() + ANSI_RESET);
+        System.out.println(ANSI_BLUE + combos.toString());
+        System.out.println(ANSI_RED + combos.size() + " possibilities left" + ANSI_RESET);
         
     }
     static void twoBulls(String x){
@@ -217,8 +246,8 @@ class Solver{
                 combos.remove(i);
             }
         }
-        //System.out.println(ANSI_BLUE + combos.toString());
-        System.out.println(ANSI_RED + combos.size() + ANSI_RESET);
+        System.out.println(ANSI_BLUE + combos.toString());
+        System.out.println(ANSI_RED + combos.size() + " possibilities left" + ANSI_RESET);
     }
 
     static void threeBulls(String x){
@@ -240,12 +269,12 @@ class Solver{
                 combos.remove(i);
             }
         }
-        //System.out.println(ANSI_BLUE + combos.toString());
-        System.out.println(ANSI_RED + combos.size() + ANSI_RESET);
+        System.out.println(ANSI_BLUE + combos.toString());
+        System.out.println(ANSI_RED + combos.size() + " possibilities left" + ANSI_RESET);
     }
 
     static String chooseRandomGuess(){
-        System.out.print(ANSI_GREEN + "next number to guess: ");
+        System.out.print(ANSI_GREEN + "Next number to guess: ");
         return combos.get(random.nextInt(combos.size())) + ANSI_RESET;
     }
 
