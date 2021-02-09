@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-
-
-
 class Solver{
     static final String ANSI_RESET = "\u001B[0m";
     static final String ANSI_BLACK = "\u001B[30m";
@@ -27,17 +24,28 @@ class Solver{
     static Scanner keys = new Scanner(System.in);
     static boolean gameActive = true;
 
-    static enum modes{input, remove, guess}
-    static modes mode = modes.guess;
+    static enum modes{start, input, remove, guess, end}
+    static modes mode = modes.start;
 
-    static int counter = 1;
+    static int counter;
     static String guess;
     static int bulls, cows, totalRight;
 
     public static void main(String[] args) {
-        createCombos();
         while(gameActive){
             switch(mode){
+                case start: {
+                    createCombos();
+                    counter = 1;
+                    mode = modes.guess;
+                }
+                case guess: {
+                    guess = chooseRandomGuess();
+                    System.out.println(ANSI_GREEN + "Guess " + counter + ": " + guess + ANSI_RESET);
+                    counter++;
+                    mode = modes.input;
+                    break;
+                }
                 case input: {
                     System.out.print("Number of bulls: ");
                     bulls = keys.nextInt();
@@ -68,28 +76,32 @@ class Solver{
         
                     if(bulls == 0){
                         noBulls(guess);
-                        System.out.println(ANSI_BLUE + combos.size() + " possibilities left\n" + ANSI_RESET);
                     } else if(bulls == 1){
                         oneBull(guess);
-                        System.out.println(ANSI_BLUE + combos.size() + " possibilities left\n" + ANSI_RESET);
                     } else if(bulls == 2){
                         twoBulls(guess);
-                        System.out.println(ANSI_BLUE + combos.size() + " possibilities left\n" + ANSI_RESET);
                     } else if(bulls == 3){
                         threeBulls(guess);
-                        System.out.println(ANSI_BLUE + combos.size() + " possibilities left\n" + ANSI_RESET);
                     } else if(bulls == 4){
-                        gameActive = false;
+                        mode = modes.end;
+                        break;
                     }
+
+                    System.out.println(ANSI_BLUE + combos.size() + " possibilities left\n" + ANSI_RESET);
                     mode = modes.guess;
                     break;
-
                 }
-                case guess: {
-                    guess = chooseRandomGuess();
-                    System.out.println(ANSI_GREEN + "Guess " + counter + ": " + guess + ANSI_RESET);
-                    counter++;
-                    mode = modes.input;
+                case end: {
+                    System.out.print("Run again? Y/N: ");
+                    String runAgain = keys.next(); 
+                    if(runAgain.equals("y") || runAgain.equals("Y")){
+                        mode = modes.start;
+                        System.out.print("\n");
+                    } else if(runAgain.equals("n") || runAgain.equals("N")){
+                        gameActive = false;
+                        keys.close();
+                        break;
+                    } 
                     break;
                 }
             }
